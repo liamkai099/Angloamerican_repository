@@ -1,0 +1,98 @@
+use esquema_seguidores;
+
+-- agregamos 6 usuarios a tabla usuarios
+INSERT INTO usuarios (nombre, apellido, gmail, created_at, updated_at)
+VALUES
+('Juan', 'Pérez', 'juan.perez@gmail.com', NOW(), NOW()),
+('emm', 'Gómez', 'ana.gomez@gmail.com', NOW(), NOW()),
+('grom', 'Hernández', 'luis.hernandez@gmail.com', NOW(), NOW()),
+('María', 'López', 'maria.lopez@gmail.com', NOW(), NOW()),
+('firex', 'Martínez', 'carlos.martinez@gmail.com', NOW(), NOW()),
+('lilit', 'Torres', 'laura.torres@gmail.com', NOW(), NOW());
+
+-- verificamos tabla
+SELECT * FROM usuarios;
+
+-- Haz que el usuario 1 sea seguidor del usuario 3, 4 y 5
+INSERT INTO seguidores (usuario_id, seguidor_id, created_at, updated_at)
+VALUES
+(3, 1, NOW(), NOW()),
+(4, 1, NOW(), NOW()),
+(5, 1, NOW(), NOW());
+
+-- Haz que el usuario 2 sea seguidor del usuario 1, 3 y 6
+INSERT INTO seguidores (usuario_id, seguidor_id, created_at, updated_at)
+VALUES
+(1, 2, NOW(), NOW()),
+(3, 2, NOW(), NOW()),
+(6, 2, NOW(), NOW());
+
+-- Haz que el usuario 3 sea seguidor del usuario 2 y 6
+INSERT INTO seguidores (usuario_id, seguidor_id, created_at, updated_at)
+VALUES
+(2, 3, NOW(), NOW()),
+(6, 3, NOW(), NOW());
+
+-- Haz que el usuario 4 sea seguidor del usuario 2
+INSERT INTO seguidores (usuario_id, seguidor_id, created_at, updated_at)
+VALUES
+(2, 4, NOW(), NOW());
+
+-- Haz que el usuario 5 sea seguidor del usuario 3 y 6
+INSERT INTO seguidores (usuario_id, seguidor_id, created_at, updated_at)
+VALUES
+(3, 5, NOW(), NOW()),
+(6, 5, NOW(), NOW());
+
+-- Consulta: Haz que el usuario 6 sea seguidor del usuario 1
+INSERT INTO seguidores (usuario_id, seguidor_id, created_at, updated_at)
+VALUES
+(1, 6, NOW(), NOW());
+
+-- verificamos tabla seguidores
+SELECT * FROM seguidores;
+
+-- Mostrar relaciones creadas con los alias
+SELECT 
+    u.nombre AS nombre_usuario,
+    u.apellido AS apellido_usuario,
+    u2.nombre AS nombre_seguidor,
+    u2.apellido AS apellido_seguidor
+FROM seguidores s
+JOIN usuarios u ON s.usuario_id = u.id
+LEFT JOIN usuarios u2 ON s.seguidor_id = u2.id;
+
+-- Devuelve todos los usuarios que son seguidores del primer usuario, mostrando sus nombres
+SELECT 
+    u2.nombre AS nombre_seguidor,
+    u2.apellido AS apellido_seguidor
+FROM seguidores s
+JOIN usuarios u ON s.usuario_id = u.id
+LEFT JOIN usuarios u2 ON s.seguidor_id = u2.id
+WHERE u.id = 1;
+
+-- Devuelve la cantidad de seguidores que hay
+SELECT 
+COUNT(*) AS cantidad_seguidores
+FROM seguidores;
+
+-- Muestra qué usuario tiene más seguidores y muestra la cantidad de seguidores que tiene
+SELECT 
+    u.nombre,
+    u.apellido,
+    COUNT(s.seguidor_id) AS cantidad_seguidores
+FROM usuarios u
+JOIN seguidores s ON s.usuario_id = u.id
+GROUP BY u.id
+ORDER BY cantidad_seguidores DESC
+LIMIT 1;
+
+-- Devuelve los seguidores del usuario 3 en orden alfabético
+SELECT 
+    u2.nombre AS nombre_seguidor,
+    u2.apellido AS apellido_seguidor
+FROM seguidores s
+JOIN usuarios u ON s.usuario_id = u.id
+LEFT JOIN usuarios u2 ON s.seguidor_id = u2.id
+WHERE u.id = 3
+ORDER BY u2.nombre ASC;

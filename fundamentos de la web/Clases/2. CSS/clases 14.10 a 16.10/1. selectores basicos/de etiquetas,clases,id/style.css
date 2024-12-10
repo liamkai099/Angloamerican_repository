@@ -1,0 +1,18 @@
+h1 {
+    color: blue;
+}
+p {
+    text-align: right;
+}
+
+.is-centered {
+    text-align: center;
+}
+
+.is-orange {
+    color: orange;
+}
+
+#idp1 {
+    background-color: aqua;
+}

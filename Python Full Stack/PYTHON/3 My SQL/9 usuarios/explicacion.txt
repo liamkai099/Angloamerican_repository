@@ -1,0 +1,45 @@
+
+--crea una base de datos
+CREATE DATABASE esquema_usuarios;
+
+--entra a la base datos
+USE esquema_usuarios;
+
+--crea una tabla en la base de datos
+CREATE TABLE usuarios (
+    id INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(45) NOT NULL,
+    apellido VARCHAR(45) NOT NULL,
+    email VARCHAR(45) NOT NULL UNIQUE,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+);
+
+--inserta 3 usuarios a la tabla creada
+INSERT INTO usuarios (nombre, apellido, email, created_at, updated_at)
+VALUES
+('Juan', 'Pérez', 'juan.perez@email.com', NOW(), NOW()),
+('Ana', 'Gómez', 'ana.gomez@email.com', NOW(), NOW()),
+('Carlos', 'Sánchez', 'carlos.sanchez@email.com', NOW(), NOW());
+
+-- nuestra la tabla seleccionada
+SELECT * FROM usuarios;
+
+--selecciona por el email al primer usuario
+SELECT * FROM usuarios WHERE email = 'juan.perez@email.com' LIMIT 1;
+
+--
+SELECT * FROM usuarios ORDER BY id DESC LIMIT 1;
+
+--Cambiar el nombre del usuario con id = 2 a "Miu"
+UPDATE usuarios SET nombre = 'Miu', updated_at = NOW() WHERE id = 2;
+
+--nuestra al usuario con id=3
+DELETE FROM usuarios WHERE id = 3;
+
+--nuestra todos los usuarios ordenados por apellidos de forma asendente
+SELECT * FROM usuarios ORDER BY apellido ASC;
+
+--nuestra a todos los usuarios ordenados de forma desendente por nombre
+SELECT * FROM usuarios ORDER BY nombre DESC;

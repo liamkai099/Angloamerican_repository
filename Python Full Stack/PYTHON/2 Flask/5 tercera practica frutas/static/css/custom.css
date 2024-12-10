@@ -1,0 +1,25 @@
+.fruit-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centrar horizontalmente */
+    gap: 20px; /* Espaciado entre los elementos */
+}
+
+.fruit-card {
+    text-align: center; /* Centrar texto e imágenes */
+    max-width: 200px; /* Controlar el ancho máximo de cada tarjeta */
+}
+
+.fruit-card img {
+    width: 150px; /* Asegurar un tamaño uniforme */
+    height: 150px; /* Altura uniforme */
+    object-fit: cover; /* Ajustar la imagen dentro del cuadro */
+    border-radius: 10px; /* Bordes redondeados para las imágenes */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para las imágenes */
+}
+
+.fruit-card h5 {
+    margin-top: 10px;
+    font-size: 1.2em;
+    color: #333;
+}

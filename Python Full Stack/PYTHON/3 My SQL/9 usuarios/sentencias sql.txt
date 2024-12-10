@@ -1,0 +1,31 @@
+USE esquema_usuarios;
+
+-- Crear 3 nuevos usuarios
+INSERT INTO usuarios (nombre, apellido, email, created_at, updated_at)
+VALUES
+('Juan', 'Pérez', 'juan.perez@email.com', NOW(), NOW()),
+('Ana', 'Gómez', 'ana.gomez@email.com', NOW(), NOW()),
+('Carlos', 'Sánchez', 'carlos.sanchez@email.com', NOW(), NOW());
+
+-- Recuperar todos los usuarios
+SELECT * FROM usuarios;
+
+-- Recuperar el primer usuario utilizando email
+SELECT * FROM usuarios WHERE email = 'juan.perez@email.com' LIMIT 1;
+
+-- Recuperar el último usuario utilizando id
+SELECT * FROM usuarios ORDER BY id DESC LIMIT 1;
+
+-- Cambiar el nombre del usuario con id = 2 a "Miu"
+UPDATE usuarios
+SET nombre = 'Miu', updated_at = NOW()
+WHERE id = 2;
+
+-- Eliminar el usuario con id = 3
+DELETE FROM usuarios WHERE id = 3;
+
+-- Obtener todos los usuarios ordenados por apellido
+SELECT * FROM usuarios ORDER BY apellido ASC;
+
+-- Obtener todos los usuarios ordenados por nombre de manera descendente
+SELECT * FROM usuarios ORDER BY nombre DESC;

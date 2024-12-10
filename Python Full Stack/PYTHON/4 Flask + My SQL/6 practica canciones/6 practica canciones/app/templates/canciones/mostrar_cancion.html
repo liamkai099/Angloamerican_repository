@@ -1,0 +1,25 @@
+<!-- app/templates/canciones/mostrar_cancion.html -->
+{% extends "base.html" %}
+{% block content %}
+<h2>Canción: {{ cancion.titulo }}</h2>
+<h4>Artista: {{ cancion.artista }}</h4>
+
+<h4>Usuarios que la tienen como favorita</h4>
+<ul>
+    {% for usuario in cancion.usuarios %}
+    <li>{{ usuario.nombre }}</li>
+    {% endfor %}
+</ul>
+
+<form action="/canciones/{{ cancion.id }}/favorito" method="POST">
+    <div class="mb-3">
+        <label for="usuario_id" class="form-label">Agregar a Usuario</label>
+        <select class="form-select" id="usuario_id" name="usuario_id">
+            {% for usuario in usuarios %}
+            <option value="{{ usuario.id }}">{{ usuario.nombre }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Agregar</button>
+</form>
+{% endblock %}

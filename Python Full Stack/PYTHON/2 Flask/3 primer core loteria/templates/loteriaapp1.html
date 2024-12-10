@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero de Lotería</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="board" style="grid-template-columns: repeat({{ cols }}, 100px);">
+        {% for row in grid %}
+            {% for cell in row %}
+                <div class="cell" style="background-color: {{ cell.color }}">
+                    <div class="number">{{ cell.number }}</div>
+                    <div class="name">{{ cell.name }}</div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,141 @@
+Crear un juego de Pac-Man con HTML, CSS y JavaScript es un proyecto divertido y desafiante. Aquí te proporcionaré una guía básica para que puedas comenzar a desarrollar este juego. Esta es una estructura simple para crear el juego, que puedes mejorar y expandir según desees.
+
+1. Estructura de Archivos
+Primero, organiza tu proyecto de la siguiente manera:
+
+Copiar código
+pacman-game/
+├── index.html
+├── style.css
+└── script.js
+2. HTML (index.html)
+En el archivo index.html, configura la estructura básica de la página web.
+
+html
+Copiar código
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pac-Man Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Pac-Man</h1>
+  <canvas id="pacmanCanvas"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
+3. CSS (style.css)
+En el archivo style.css, establece el diseño básico y la apariencia del lienzo.
+
+css
+Copiar código
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #000;
+  color: white;
+  margin: 0;
+}
+
+h1 {
+  margin-top: 20px;
+}
+
+canvas {
+  background-color: #000;
+  display: block;
+  margin: 0 auto;
+}
+4. JavaScript (script.js)
+Aquí es donde ocurre toda la lógica del juego. Vamos a crear la estructura básica del juego, donde Pac-Man se mueve en un lienzo, y programaremos los controles.
+
+javascript
+Copiar código
+// Obtener el contexto del canvas
+const canvas = document.getElementById("pacmanCanvas");
+const ctx = canvas.getContext("2d");
+
+// Tamaño del lienzo
+canvas.width = 400;
+canvas.height = 400;
+
+// Variables del juego
+let pacManRadius = 15;
+let pacManX = 50;
+let pacManY = 50;
+let pacManSpeed = 5;
+let pacManDirection = "right"; // Puede ser "right", "left", "up", "down"
+let pacManAngle = 1.5 * Math.PI; // Dirección inicial de Pac-Man
+
+// Función para dibujar a Pac-Man
+function drawPacMan() {
+  ctx.beginPath();
+  ctx.arc(pacManX, pacManY, pacManRadius, pacManAngle, 2.5 * Math.PI);
+  ctx.lineTo(pacManX, pacManY);
+  ctx.fillStyle = "yellow";
+  ctx.fill();
+  ctx.closePath();
+}
+
+// Función para mover a Pac-Man
+function movePacMan() {
+  if (pacManDirection === "right") pacManX += pacManSpeed;
+  if (pacManDirection === "left") pacManX -= pacManSpeed;
+  if (pacManDirection === "up") pacManY -= pacManSpeed;
+  if (pacManDirection === "down") pacManY += pacManSpeed;
+
+  // Verificar los límites del lienzo
+  if (pacManX > canvas.width) pacManX = 0;
+  if (pacManX < 0) pacManX = canvas.width;
+  if (pacManY > canvas.height) pacManY = 0;
+  if (pacManY < 0) pacManY = canvas.height;
+}
+
+// Función para actualizar el juego
+function update() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar el lienzo
+
+  drawPacMan();
+  movePacMan();
+
+  requestAnimationFrame(update); // Llamar a la función repetidamente
+}
+
+// Controlar el movimiento de Pac-Man con las teclas
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight") pacManDirection = "right";
+  if (e.key === "ArrowLeft") pacManDirection = "left";
+  if (e.key === "ArrowUp") pacManDirection = "up";
+  if (e.key === "ArrowDown") pacManDirection = "down";
+});
+
+// Comenzar el juego
+update();
+Descripción del Código:
+HTML: El archivo HTML contiene un <canvas> donde se dibujará el juego. Usamos un <script> al final para incluir el código JavaScript.
+
+CSS: Se define el estilo básico, haciendo que el lienzo se vea centrado y con fondo negro. También se establece el estilo para el texto.
+
+JavaScript:
+
+Canvas: Creamos un lienzo en el que dibujamos a Pac-Man.
+Movimiento: Utilizamos las teclas de flecha para mover a Pac-Man en las direcciones correspondientes.
+Dibujo de Pac-Man: La función drawPacMan dibuja una forma circular en el lienzo que representa a Pac-Man.
+Animación: Usamos requestAnimationFrame para hacer que el juego se actualice constantemente.
+Control de límites: Aseguramos que Pac-Man se mueva de un borde a otro, creando un efecto de "teletransportación".
+Mejoras y Expansiones
+Este es solo un punto de partida. Aquí hay algunas ideas para mejorar y expandir el juego:
+
+Paredes y Laberintos: Agregar un laberinto para que Pac-Man se mueva por él.
+Puntos: Dibujar puntos en el laberinto que Pac-Man debe comer.
+Fantasmillas: Agregar enemigos (fantasmas) que sigan a Pac-Man.
+Colisiones: Detectar colisiones entre Pac-Man y los fantasmas.
+Puntaje: Mostrar el puntaje de los puntos que Pac-Man ha comido.
+Con estos pasos, puedes empezar a crear tu propio juego de Pac-Man. ¡Diviértete programando!
+
+
+

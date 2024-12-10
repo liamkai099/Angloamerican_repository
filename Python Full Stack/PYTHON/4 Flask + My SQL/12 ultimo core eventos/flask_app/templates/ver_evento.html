@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Evento</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Barra de navegación superior con botones de Inicio y Cerrar sesión -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
+        <div class="container-fluid">
+            <div class="ms-auto">
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary me-2">Inicio</a>
+                <a href="{{ url_for('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}
+    <!-- Contenedor principal para centrar el contenido -->
+    <div class="d-flex justify-content-center align-items-center vh-100" style="padding-top: 70px;">
+        <div class="card shadow w-50">
+            <div class="card-header bg-primary text-white text-center">
+                <h1 class="h4 mb-0">Detalles del Evento</h1>
+            </div>
+            <div class="card-body">
+                <!-- Flash messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class="mb-3">
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <!-- Detalles del evento -->
+                <div class="form-group mb-3">
+                    <label><strong>Nombre:</strong></label>
+                    <input type="text" class="form-control" value="{{ evento.nombre }}" readonly>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label><strong>Ubicación:</strong></label>
+                    <input type="text" class="form-control" value="{{ evento.ubicacion }}" readonly>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label><strong>Organizador:</strong></label>
+                    <input type="text" class="form-control" value="{{ evento.organizador }}" readonly>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label><strong>Fecha de Inicio:</strong></label>
+                    <input type="text" class="form-control" value="{{ evento.fecha_inicio.strftime('%d/%m/%Y - %H:%M') }}" readonly>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label><strong>Detalles:</strong></label>
+                    <input type="text" class="form-control" value="{{ evento.detalles }}" readonly>
+                </div>
+
+                <!-- Botón Volver -->
+                <div class="d-flex justify-content-center">
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Volver</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

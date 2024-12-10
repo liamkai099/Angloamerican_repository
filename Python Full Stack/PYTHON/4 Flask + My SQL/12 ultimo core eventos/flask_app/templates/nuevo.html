@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Evento</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Barra de navegación superior con botones de Inicio y Cerrar sesión -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
+        <div class="container-fluid">
+            <div class="ms-auto">
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary me-2">Inicio</a>
+                <a href="{{ url_for('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenedor principal para centrar el formulario -->
+    <div class="d-flex justify-content-center align-items-center vh-100" style="padding-top: 70px;">
+        <div class="card shadow w-50">
+            <div class="card-header bg-primary text-white text-center">
+                <h1 class="h4 mb-0">Evento</h1>
+            </div>
+            <div class="card-body">
+                <!-- Flash messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class="mb-3">
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <!-- Formulario de creación de evento -->
+                <form id="newEventForm" action="{{ url_for('nuevo_evento') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre del Evento</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required value="{{ data.nombre if data else '' }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ubicacion" class="form-label">Ubicación</label>
+                        <input type="text" class="form-control" id="ubicacion" name="ubicacion" required value="{{ data.ubicacion if data else '' }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
+                        <input type="datetime-local" class="form-control" id="fechaInicio" name="fechaInicio" required min="{{ today }}" value="{{ data.fecha_inicio if data else '' }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="detalles" class="form-label">Detalles</label>
+                        <textarea class="form-control" id="detalles" name="detalles" rows="4" required>{{ data.detalles if data else '' }}</textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

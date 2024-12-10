@@ -1,0 +1,36 @@
+body{
+    text-align: center;
+}
+
+h1 {
+    font-family: sans-serif;
+    text-decoration: underline wavy;
+}
+
+span{
+    display: inline-block;
+    margin: 20px;
+    height: 40px;
+    width: 200px;
+}
+
+.primer-span{
+    background-color: rgb(41, 240, 240);
+    text-align: left;
+    color: black;
+}
+
+.segundo-span{
+    background-color: fuchsia;
+    text-align: center;
+    color: white;
+    
+}
+
+
+.tercer-span{
+    background-color: darkblue;
+    text-align: right;
+    color: yellow;
+
+}

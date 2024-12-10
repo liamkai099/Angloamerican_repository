@@ -1,0 +1,89 @@
+
+/*   Te dejo un poco de código para empezar, el resto debes completarlo tú.
+#clock-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: white;
+}
+
+#clock {
+    position: relative;
+    width:
+    height:
+    border:
+    border-radius:
+    background-color:
+}
+
+.hand {
+    position:
+    bottom: 50%;
+    left: 50%;
+    transform-origin: 50% 100%;
+    transform: translateX(-50%);
+}
+
+
+#hour-hand {
+    width:
+    height:
+    background-color:
+}
+
+#minute-hand {
+
+}
+
+#second-hand {
+
+} */
+
+
+#clock-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: white;
+}
+
+#clock {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    border: 10px solid black;
+    border-radius: 50%;
+    background-color: #f3f3f3;
+}
+
+.hand {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform-origin: 50% 100%;
+    transform: translateX(-50%);
+}
+
+#hour-hand {
+    width: 8px;
+    height: 70px;
+    background-color: #000;
+    border-radius: 5px;
+}
+
+#minute-hand {
+    width: 6px;
+    height: 90px;
+    background-color: #555;
+    border-radius: 5px;
+}
+
+#second-hand {
+    width: 2px;
+    height: 110px;
+    background-color: red;
+    border-radius: 5px;
+}
+

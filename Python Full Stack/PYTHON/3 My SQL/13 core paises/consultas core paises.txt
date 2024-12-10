@@ -1,0 +1,114 @@
+-- 1 obtener todos los países que hablan español:
+-- devolverá el nombre del país, el idioma y el porcentaje de habla del idioma, ordenado por porcentaje en orden descendente.
+SELECT 
+    p.nombre AS pais,
+    i.idioma,
+    i.porcentage AS porcentaje_habla
+FROM 
+    paises p
+JOIN 
+    idiomas i ON p.id = i.pais_id
+WHERE 
+    i.idioma = 'Español'
+ORDER BY 
+    i.porcentage DESC;
+
+
+-- 2 Mostrar el número total de ciudades de cada país:
+-- Devolverá el nombre del país, el idioma y el número total de ciudades, ordenado por el número de
+-- ciudades en orden descendente.
+SELECT 
+    p.nombre AS pais,
+    COUNT(c.id) AS numero_ciudades
+FROM 
+    paises p
+JOIN 
+    ciudades c ON p.id = c.pais_id
+GROUP BY 
+    p.nombre
+ORDER BY 
+    numero_ciudades DESC;
+
+
+-- 3 Obtener todas las ciudades de Chile con una población mayor a 200,000:
+-- Devolverá las ciudades de Chile, ordenadas por población en orden descendente.
+SELECT 
+    c.nombre AS ciudad,
+    c.poblacion
+FROM 
+    ciudades c
+JOIN 
+    paises p ON c.pais_id = p.id
+WHERE 
+    p.nombre = 'Chile' AND c.poblacion > 200000
+ORDER BY 
+    c.poblacion DESC;
+    
+    
+-- 4 Obtener todos los idiomas en cada país con un porcentaje de habla mayor a 89%:
+-- Devolverá el idioma y el porcentaje de habla, ordenado por porcentaje en orden descendente.
+SELECT 
+    p.nombre AS pais,
+    i.idioma,
+    i.porcentage AS porcentaje_habla
+FROM 
+    paises p
+JOIN 
+    idiomas i ON p.id = i.pais_id
+WHERE 
+    i.porcentage > 89
+ORDER BY 
+    i.porcentage DESC;
+    
+    
+-- 5 Obtener todos los países con un área de superficie menor a 501 y población mayor a 100,000:
+SELECT 
+    nombre AS pais,
+    area_superficie,
+    poblacion
+FROM 
+    paises
+WHERE 
+    area_superficie < 501 AND poblacion > 100000;
+    
+    
+-- 6 Obtener países con tipo de gobierno "República", capital mayor a 2000, y esperanza de vida mayor a
+-- 78 años:
+SELECT 
+    nombre AS pais,
+    tipo_gobierno,
+    esperanza_vida,
+    capital
+FROM 
+    paises
+WHERE 
+    tipo_gobierno = 'República' AND capital > 2000 AND esperanza_vida > 78;
+    
+    
+-- 7 Obtener todas las ciudades de Colombia en el distrito "Valle" con una población mayor a 200,000:
+-- Devolverá el nombre del país, nombre de la ciudad, distrito y población.
+SELECT 
+    p.nombre AS pais,
+    c.nombre AS ciudad,
+    c.distrito,
+    c.poblacion
+FROM 
+    ciudades c
+JOIN 
+    paises p ON c.pais_id = p.id
+WHERE 
+    p.nombre = 'Colombia' AND c.distrito = 'Valle' AND c.poblacion > 200000;   
+    
+-- 8 Resumir el número de países en cada región:
+-- Devolverá el nombre de la región y el número de países, ordenado por número de países en orden 
+-- descendente.
+SELECT 
+    region,
+    COUNT(id) AS numero_paises
+FROM 
+    paises
+GROUP BY 
+    region
+ORDER BY 
+    numero_paises DESC;
+    

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">{{ usuario.nombre }}</h1>
+    <div class="row">
+        <!-- Tabla de Favoritos -->
+        <div class="col-md-6">
+            <h3>Favoritos</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Canción</th>
+                        <th>Artista</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cancion in usuario.favoritos %}
+                    <tr>
+                        <td>{{ cancion.titulo }}</td>
+                        <td>{{ cancion.artista }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Formulario Agregar Favorito -->
+        <div class="col-md-6">
+            <h3>Agregar Favorito</h3>
+            <form action="/usuarios/{{ usuario.id }}/favorito" method="POST">
+                <div class="mb-3">
+                    <label for="cancion_id" class="form-label">Canción:</label>
+                    <select class="form-select" id="cancion_id" name="cancion_id">
+                        {% for cancion in canciones %}
+                        <option value="{{ cancion.id }}">{{ cancion.titulo }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Agregar</button>
+            </form>
+        </div>
+    </div>
+    <div class="text-start mt-3">
+        <a href="/" class="btn btn-link">Inicio</a>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+

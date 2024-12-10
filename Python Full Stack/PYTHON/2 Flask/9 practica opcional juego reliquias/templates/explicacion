@@ -1,0 +1,678 @@
+crea APP en flask Explorador de reliquias 
+
+
+Objetivos
+
+Practicar el uso de sesiones
+Utilizar la información de un formulario para agregar lógica al servidor
+Practicar el uso de inputs ocultos
+
+
+crea un juego sencillo en el que implementarás sesiones, formularios e inputs ocultos.
+
+El juego consiste en lo siguiente: Eres un explorador en busca de reliquias. Al comenzar el juego tu explorador debe tener 0 reliquias. El explorador puede ir a distintos lugares: al templo, a la pirámide, a la selva o a las ruinas y encontrar diferentes cantidades de reliquias. Las ruinas son las más peligrosas, aquí tienen la posibilidad de derrumbarse y puedes perder en vez de ganar reliquias. 
+
+Debes de crear este juego a través de Flask, permitiendo al explorador ganar reliquias y mostrar sus actividades pasadas.
+
+La ruta principal debe mostrar una pantalla parecida a la siguiente; en donde se encuentren 4 formularios distintos (uno por cada lugar). Como por ejemplo, el de el templo podría verse así:
+
+ 
+
+<form action="/buscar_reliquias" method="post">
+
+   <input type="hidden" name="lugar" value="templo" />
+
+   <input type="submit" value="Encontrar reliquias!" class="btn btn-success"/>
+
+</form>
+ 
+
+Solo debe existir un método que maneje la solicitud POST para todos los lugares, y dependiendo del lugar que haya visitado el usuario será la cantidad de reliquias que obtendrá.
+
+Eso significa que solo tendrás 2 rutas para esta tarea: la ruta principal (“/”) y la solicitud POST (“/buscar_reliquias”).
+
+
+
+
+1 Crea un nuevo proyecto de Flask llamado reliquias
+2 Crea una plantilla como se muestra en las imágenes anteriores, en donde se incluyen 4 formularios separados; uno por cada lugar a explorar.
+3 Genera una ruta principal que renderice esta página
+4 Haz que la ruta POST “/buscar_reliquias” agregue/disminuya la cantidad de reliquias que el explorador ha encontrado de acuerdo al lugar que exploró y redirige a la ruta raíz.
+
+ChatGPT Plus
+ChatGPT
+Aquí tienes el código para crear el juego "Explorador de Reliquias" en Flask:
+
+Estructura del Proyecto
+Directorio del Proyecto:
+arduino
+Copiar código
+reliquias/
+  ├── static/
+  ├── templates/
+  │   └── index.html
+  ├── app.py
+Código de la aplicación
+app.py
+python
+Copiar código
+from flask import Flask, render_template, request, redirect, session
+import random
+
+app = Flask(__name__)
+app.secret_key = "secret_key_reliquias"
+
+@app.route('/')
+def index():
+    # Inicializar sesión si es la primera visita
+    if 'reliquias' not in session:
+        session['reliquias'] = 0
+        session['actividades'] = []
+    
+    return render_template('index.html', reliquias=session['reliquias'], actividades=session['actividades'])
+
+@app.route('/buscar_reliquias', methods=['POST'])
+def buscar_reliquias():
+    lugar = request.form['lugar']
+    reliquias_obtenidas = 0
+    mensaje = ""
+    
+    if lugar == 'templo':
+        reliquias_obtenidas = random.randint(10, 20)
+        mensaje = f"Se obtuvieron: {reliquias_obtenidas} en: templo"
+    elif lugar == 'pirámide':
+        reliquias_obtenidas = random.randint(5, 10)
+        mensaje = f"Se obtuvieron: {reliquias_obtenidas} en: pirámide"
+    elif lugar == 'selva':
+        reliquias_obtenidas = random.randint(2, 5)
+        mensaje = f"Se obtuvieron: {reliquias_obtenidas} en: selva"
+    elif lugar == 'ruinas':
+        reliquias_obtenidas = random.randint(-50, 50)
+        if reliquias_obtenidas < 0:
+            mensaje = f"Se derrumbó la ruina! Perdiste {-reliquias_obtenidas} reliquias en: ruinas"
+        else:
+            mensaje = f"Se obtuvieron: {reliquias_obtenidas} en: ruinas"
+    
+    # Actualizar sesión
+    session['reliquias'] += reliquias_obtenidas
+    session['actividades'].append(mensaje)
+    
+    return redirect('/')
+
+@app.route('/reiniciar')
+def reiniciar():
+    session.clear()
+    return redirect('/')
+
+if __name__ == "__main__":
+    app.run(debug=True)
+templates/index.html
+html
+Copiar código
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador de Reliquias</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h1 class="text-center">Tus reliquias: {{ reliquias }}</h1>
+        <div class="row text-center">
+            <!-- Formulario para el Templo -->
+            <div class="col-md-3">
+                <h4>Templo</h4>
+                <p>Ganas 10-20 reliquias</p>
+                <form action="/buscar_reliquias" method="post">
+                    <input type="hidden" name="lugar" value="templo">
+                    <button type="submit" class="btn btn-success">Encontrar reliquias!</button>
+                </form>
+            </div>
+            <!-- Formulario para la Pirámide -->
+            <div class="col-md-3">
+                <h4>Pirámide</h4>
+                <p>Ganas 5-10 reliquias</p>
+                <form action="/buscar_reliquias" method="post">
+                    <input type="hidden" name="lugar" value="pirámide">
+                    <button type="submit" class="btn btn-success">Encontrar reliquias!</button>
+                </form>
+            </div>
+            <!-- Formulario para la Selva -->
+            <div class="col-md-3">
+                <h4>Selva</h4>
+                <p>Ganas 2-5 reliquias</p>
+                <form action="/buscar_reliquias" method="post">
+                    <input type="hidden" name="lugar" value="selva">
+                    <button type="submit" class="btn btn-success">Encontrar reliquias!</button>
+                </form>
+            </div>
+            <!-- Formulario para las Ruinas -->
+            <div class="col-md-3">
+                <h4>Ruinas</h4>
+                <p>Ganas/Pierdes 0-50 reliquias</p>
+                <form action="/buscar_reliquias" method="post">
+                    <input type="hidden" name="lugar" value="ruinas">
+                    <button type="submit" class="btn btn-success">Encontrar reliquias!</button>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <h4>Actividades</h4>
+        <ul>
+            {% for actividad in actividades %}
+                <li class="{% if 'Perdiste' in actividad %}text-danger{% else %}text-success{% endif %}">{{ actividad }}</li>
+            {% endfor %}
+        </ul>
+        <a href="/reiniciar" class="btn btn-danger mt-3">Reiniciar Juego</a>
+    </div>
+</body>
+</html>
+Descripción del Funcionamiento
+Ruta Principal (/): Renderiza la página principal, mostrando el total de reliquias y un listado de actividades.
+Ruta de Búsqueda (/buscar_reliquias): Maneja los formularios para calcular reliquias ganadas o perdidas en función del lugar seleccionado.
+Reiniciar Juego (/reiniciar): Borra la sesión y reinicia el contador de reliquias.
+Estilo Bootstrap
+Los botones y las actividades utilizan clases de Bootstrap para colores y diseño responsive.
+
+
+
+
+
+Tú dijiste:
+as los cambios al codigo para que muestra las actividades en orden descendiente, es decir la actividad más reciente primero
+ChatGPT Plus
+ChatGPT
+Para mostrar las actividades en orden descendente (la actividad más reciente primero), puedes modificar cómo se renderizan las actividades en la plantilla. Aquí está el cambio necesario:
+
+Código Actualizado
+app.py (sin cambios)
+El manejo de las actividades no requiere modificaciones, ya que las actividades nuevas ya se añaden al final de la lista.
+
+templates/index.html
+Modifica la sección que renderiza las actividades para invertir el orden utilizando el filtro reverse de Jinja2.
+
+html
+Copiar código
+<h4>Actividades</h4>
+<ul>
+    {% for actividad in actividades | reverse %}
+        <li class="{% if 'Perdiste' in actividad %}text-danger{% else %}text-success{% endif %}">{{ actividad }}</li>
+    {% endfor %}
+</ul>
+Explicación
+Filtro reverse: Invierte el orden de la lista actividades para que las actividades más recientes se muestren primero.
+Estructura de Renderizado: Las actividades siguen mostrando el estilo correcto (rojo para pérdida y verde para ganancia).
+Con este cambio, las actividades más recientes aparecerán en la parte superior del listado. No necesitas realizar modificaciones adicionales en el servidor.
+
+
+
+
+
+
+Tú dijiste:
+agrega esta funcion al codigo crea una condición para ganar; por ejemplo, el usuario que haya ganado 500 reliquias en menos de 15 exploraciones. En el momento el que gane, puedes mostrar el botón de reinicio
+ChatGPT Plus
+ChatGPT
+Para agregar una condición de victoria (ganar 500 reliquias en menos de 15 exploraciones) y mostrar un botón para reiniciar cuando se cumpla, aquí está el código actualizado:
+
+Modificaciones en el Servidor (app.py)
+Agrega una lógica para verificar la condición de victoria en cada exploración.
+Define una ruta para reiniciar el juego.
+python
+Copiar código
+from flask import Flask, render_template, request, redirect, session
+
+app = Flask(__name__)
+app.secret_key = 'mi_clave_secreta'
+
+@app.route('/')
+def index():
+    # Inicializa variables de sesión si no existen
+    if 'reliquias' not in session:
+        session['reliquias'] = 0
+    if 'actividades' not in session:
+        session['actividades'] = []
+    if 'exploraciones' not in session:
+        session['exploraciones'] = 0
+    if 'ganador' not in session:
+        session['ganador'] = False
+
+    return render_template('index.html', reliquias=session['reliquias'], 
+                           actividades=session['actividades'], 
+                           ganador=session['ganador'])
+
+@app.route('/buscar_reliquias', methods=['POST'])
+def buscar_reliquias():
+    lugar = request.form['lugar']
+    import random
+
+    if lugar == 'templo':
+        reliquias = random.randint(10, 20)
+        session['actividades'].append(f"Se obtuvieron {reliquias} en el {lugar}")
+    elif lugar == 'piramide':
+        reliquias = random.randint(5, 10)
+        session['actividades'].append(f"Se obtuvieron {reliquias} en la {lugar}")
+    elif lugar == 'selva':
+        reliquias = random.randint(2, 5)
+        session['actividades'].append(f"Se obtuvieron {reliquias} en la {lugar}")
+    elif lugar == 'ruinas':
+        reliquias = random.randint(-50, 50)
+        if reliquias >= 0:
+            session['actividades'].append(f"Se obtuvieron {reliquias} en las {lugar}")
+        else:
+            session['actividades'].append(f"Se derrumbó la ruina! Perdiste {abs(reliquias)} en las {lugar}")
+
+    # Incrementa exploraciones
+    session['exploraciones'] += 1
+
+    # Actualiza las reliquias
+    session['reliquias'] += reliquias
+
+    # Verifica condición de victoria
+    if session['reliquias'] >= 500 and session['exploraciones'] <= 15:
+        session['ganador'] = True
+
+    return redirect('/')
+
+@app.route('/reiniciar')
+def reiniciar():
+    # Reinicia la sesión
+    session.clear()
+    return redirect('/')
+Modificaciones en la Plantilla (templates/index.html)
+Agregar un mensaje de victoria y el botón de reinicio.
+html
+Copiar código
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador de Reliquias</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <h1>Tus reliquias: {{ reliquias }}</h1>
+        <h3>Exploraciones realizadas: {{ session['exploraciones'] }}</h3>
+
+        {% if ganador %}
+            <div class="alert alert-success" role="alert">
+                ¡Felicidades! Has ganado con {{ reliquias }} reliquias en {{ session['exploraciones'] }} exploraciones.
+            </div>
+            <a href="/reiniciar" class="btn btn-primary">Reiniciar Juego</a>
+        {% else %}
+            <div class="row mt-3">
+                <div class="col">
+                    <h4>Templo</h4>
+                    <p>Ganas 10-20 reliquias</p>
+                    <form action="/buscar_reliquias" method="post">
+                        <input type="hidden" name="lugar" value="templo">
+                        <input type="submit" value="Encontrar reliquias!" class="btn btn-success">
+                    </form>
+                </div>
+                <div class="col">
+                    <h4>Pirámide</h4>
+                    <p>Ganas 5-10 reliquias</p>
+                    <form action="/buscar_reliquias" method="post">
+                        <input type="hidden" name="lugar" value="piramide">
+                        <input type="submit" value="Encontrar reliquias!" class="btn btn-success">
+                    </form>
+                </div>
+                <div class="col">
+                    <h4>Selva</h4>
+                    <p>Ganas 2-5 reliquias</p>
+                    <form action="/buscar_reliquias" method="post">
+                        <input type="hidden" name="lugar" value="selva">
+                        <input type="submit" value="Encontrar reliquias!" class="btn btn-success">
+                    </form>
+                </div>
+                <div class="col">
+                    <h4>Ruinas</h4>
+                    <p>Ganas/Pierdes 0-50 reliquias</p>
+                    <form action="/buscar_reliquias" method="post">
+                        <input type="hidden" name="lugar" value="ruinas">
+                        <input type="submit" value="Encontrar reliquias!" class="btn btn-success">
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+
+        <h4 class="mt-4">Actividades</h4>
+        <ul>
+            {% for actividad in actividades | reverse %}
+                <li class="{% if 'Perdiste' in actividad %}text-danger{% else %}text-success{% endif %}">{{ actividad }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
+Explicación
+Condición de Victoria:
+
+El usuario gana si tiene 500 o más reliquias en 15 exploraciones o menos.
+Se utiliza session['ganador'] para indicar si el usuario ha ganado.
+Botón de Reinicio:
+
+Cuando el usuario gana, se muestra un mensaje con el botón de reinicio.
+El botón dirige a la ruta /reiniciar, que limpia la sesión.
+Actividades:
+
+Las actividades siguen siendo mostradas en orden descendente.
+Prueba este código y verás cómo el botón aparece automáticamente al ganar.
+
+
+
+
+
+
+Tú dijiste:
+no puedo ejecutar este codigo en consola que a pasado
+ChatGPT Plus
+ChatGPT
+Para ejecutar el código en tu consola, asegúrate de que tienes un entorno de desarrollo Flask configurado correctamente. Sigue estos pasos para solucionar cualquier problema y ejecutar el proyecto:
+
+Pasos para Configurar y Ejecutar el Proyecto
+Verifica tu entorno de Python
+
+Asegúrate de que Python está instalado:
+bash
+Copiar código
+python --version
+Asegúrate de tener Python 3.7 o superior.
+Crea un entorno virtual
+
+En la carpeta donde está tu proyecto, crea un entorno virtual para aislar tus dependencias:
+bash
+Copiar código
+python -m venv venv
+Activa el entorno virtual:
+En Windows:
+bash
+Copiar código
+venv\Scripts\activate
+En macOS/Linux:
+bash
+Copiar código
+source venv/bin/activate
+Instala Flask
+
+Una vez que el entorno virtual esté activo, instala Flask:
+bash
+Copiar código
+pip install flask
+Crea tu estructura de proyecto
+
+Asegúrate de que el código que compartí está organizado así:
+Copiar código
+reliquias/
+├── app.py
+├── templates/
+│   └── index.html
+└── venv/
+Guarda el archivo index.html dentro de la carpeta templates.
+Ejecuta el servidor
+
+Abre una terminal en la carpeta donde está app.py y ejecuta:
+bash
+Copiar código
+python app.py
+Flask debería iniciar un servidor y mostrar algo como esto:
+csharp
+Copiar código
+* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+Abre el navegador
+
+Abre tu navegador y ve a http://127.0.0.1:5000/.
+¿Qué errores pueden ocurrir?
+Flask no está instalado
+
+Si obtienes un error como ModuleNotFoundError: No module named 'flask', Flask no está instalado. Instálalo con:
+bash
+Copiar código
+pip install flask
+Estructura de archivos incorrecta
+
+Asegúrate de que index.html está dentro de una carpeta llamada templates en el mismo directorio que app.py.
+Error en el código
+
+Si hay un error en el código, Flask lo mostrará en la consola. Verifica que hayas copiado el código completo correctamente.
+Conflicto de puerto
+
+Si el puerto 5000 está ocupado, inicia Flask en otro puerto:
+bash
+Copiar código
+flask run --port=5001
+¿Cómo depurar el problema?
+Si no puedes ejecutarlo aún, comparte el mensaje de error específico que aparece en tu consola. Esto me ayudará a identificar y resolver el problema.
+
+
+
+
+
+Tú dijiste:
+modifica el codigo para Evitar el uso de sentencias condicionales (if, elif) en la ruta “/buscar_reliquias”
+ChatGPT Plus
+ChatGPT
+Evitar las sentencias condicionales en la ruta /buscar_reliquias puede lograrse utilizando estructuras como diccionarios para mapear las reglas de cada lugar directamente. A continuación, se realiza la modificación para eliminar el uso de if y elif en esa ruta.
+
+Código Modificado
+python
+Copiar código
+from flask import Flask, render_template, request, redirect, session
+
+import random
+
+app = Flask(__name__)
+app.secret_key = 'mi_clave_secreta'
+
+# Diccionario para definir las reglas de reliquias por lugar
+REGLAS = {
+    'templo': lambda: random.randint(10, 20),
+    'pirámide': lambda: random.randint(5, 10),
+    'selva': lambda: random.randint(2, 5),
+    'ruinas': lambda: random.choice([random.randint(-50, -1), random.randint(1, 50)]),  # Ganar o perder
+}
+
+
+@app.route('/')
+def index():
+    # Inicializa la sesión si es la primera vez que se carga
+    session.setdefault('reliquias', 0)
+    session.setdefault('actividades', [])
+    session.setdefault('exploraciones', 0)
+    session.setdefault('ganador', False)
+
+    # Verifica si el usuario ha ganado
+    if session['reliquias'] >= 500 and session['exploraciones'] <= 15:
+        session['ganador'] = True
+
+    return render_template(
+        'index.html',
+        reliquias=session['reliquias'],
+        actividades=reversed(session['actividades']),  # Mostrar las actividades en orden descendente
+        ganador=session['ganador']
+    )
+
+
+@app.route('/buscar_reliquias', methods=['POST'])
+def buscar_reliquias():
+    # Obtén el lugar enviado desde el formulario
+    lugar = request.form.get('lugar')
+
+    # Calcula las reliquias según el lugar (evitando condicionales)
+    reliquias_obtenidas = REGLAS.get(lugar, lambda: 0)()  # Si no hay lugar, devuelve 0 por defecto
+    session['reliquias'] += reliquias_obtenidas
+
+    # Actualiza actividades
+    actividad = (
+        f"Se obtuvo {reliquias_obtenidas} reliquias en el {lugar}" 
+        if reliquias_obtenidas >= 0 
+        else f"Se derrumbó la {lugar}! Perdiste {-reliquias_obtenidas} reliquias"
+    )
+    session['actividades'].append(actividad)
+    
+    # Incrementa el contador de exploraciones
+    session['exploraciones'] += 1
+
+    return redirect('/')
+
+
+@app.route('/reiniciar')
+def reiniciar():
+    # Reinicia la sesión para empezar de nuevo
+    session.clear()
+    return redirect('/')
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+Explicación de Cambios
+Uso de un Diccionario de Reglas (REGLAS):
+
+Cada lugar tiene una función lambda que genera las reliquias correspondientes.
+Por ejemplo:
+'templo': lambda: random.randint(10, 20) para generar entre 10 y 20 reliquias.
+'ruinas': lambda: random.choice([random.randint(-50, -1), random.randint(1, 50)]) para ganar o perder.
+Eliminación de Condicionales en la Ruta buscar_reliquias:
+
+En lugar de usar if o elif, se utiliza el diccionario REGLAS con get para obtener la función asociada al lugar y ejecutarla.
+Si el lugar no es válido, el valor por defecto será lambda: 0, evitando errores.
+Orden Descendente de Actividades:
+
+reversed(session['actividades']) asegura que las actividades más recientes se muestren primero.
+Reinicio de Sesión:
+
+La ruta /reiniciar elimina toda la sesión con session.clear().
+Plantilla HTML (templates/index.html)
+Asegúrate de que el diseño de la plantilla también soporte el botón de reinicio cuando el usuario gane.
+
+html
+Copiar código
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador de Reliquias</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container text-center mt-5">
+        <h1 class="mb-3">Tus reliquias: {{ reliquias }}</h1>
+        
+        {% if ganador %}
+        <div class="alert alert-success" role="alert">
+            ¡Felicidades! Has ganado con {{ exploraciones }} exploraciones.
+            <a href="/reiniciar" class="btn btn-primary">Reiniciar Juego</a>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col-3">
+                <form action="/buscar_reliquias" method="post">
+                    <input type="hidden" name="lugar" value="templo" />
+                    <button class="btn btn-success w-100">Explorar el Templo</button>
+                </form>
+            </div>
+            <div class="col-3">
+                <form action="/buscar_reliquias" method="post">
+                    <input type="hidden" name="lugar" value="pirámide" />
+                    <button class="btn btn-success w-100">Explorar la Pirámide</button>
+                </form>
+            </div>
+            <div class="col-3">
+                <form action="/buscar_reliquias" method="post">
+                    <input type="hidden" name="lugar" value="selva" />
+                    <button class="btn btn-success w-100">Explorar la Selva</button>
+                </form>
+            </div>
+            <div class="col-3">
+                <form action="/buscar_reliquias" method="post">
+                    <input type="hidden" name="lugar" value="ruinas" />
+                    <button class="btn btn-success w-100">Explorar las Ruinas</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+        <h3 class="mt-5">Actividades</h3>
+        <ul class="list-group">
+            {% for actividad in actividades %}
+                <li class="list-group-item">{{ actividad }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
+
+
+
+
+
+Tú dijiste:
+también agrega color a los textos si gana verde si pierde rojo
+ChatGPT Plus
+ChatGPT
+Para agregar colores al texto según si el usuario gana reliquias (verde) o pierde reliquias (rojo), puedes aplicar clases de Bootstrap en las actividades mostradas. Esto se logrará añadiendo una lógica para clasificar las actividades según ganancia o pérdida.
+
+Modificación en el Código de la Ruta Principal
+Actualizamos la lógica para incluir una clase de estilo en cada actividad según si es positiva o negativa.
+
+python
+Copiar código
+@app.route('/buscar_reliquias', methods=['POST'])
+def buscar_reliquias():
+    # Obtén el lugar enviado desde el formulario
+    lugar = request.form.get('lugar')
+
+    # Calcula las reliquias según el lugar (evitando condicionales)
+    reliquias_obtenidas = REGLAS.get(lugar, lambda: 0)()  # Si no hay lugar, devuelve 0 por defecto
+    session['reliquias'] += reliquias_obtenidas
+
+    # Determina el color de la actividad según la ganancia o pérdida
+    color_clase = "text-success" if reliquias_obtenidas > 0 else "text-danger"
+
+    # Actualiza actividades
+    actividad = {
+        "mensaje": (
+            f"Se obtuvo {reliquias_obtenidas} reliquias en el {lugar}" 
+            if reliquias_obtenidas >= 0 
+            else f"Se derrumbó la {lugar}! Perdiste {-reliquias_obtenidas} reliquias"
+        ),
+        "clase": color_clase,
+    }
+    session['actividades'].append(actividad)
+    
+    # Incrementa el contador de exploraciones
+    session['exploraciones'] += 1
+
+    return redirect('/')
+Actualización en la Plantilla HTML
+Modificamos la plantilla para usar las clases de color dinámicas en las actividades:
+
+html
+Copiar código
+<h3 class="mt-5">Actividades</h3>
+<ul class="list-group">
+    {% for actividad in actividades %}
+        <li class="list-group-item {{ actividad.clase }}">{{ actividad.mensaje }}</li>
+    {% endfor %}
+</ul>
+Cambios Clave
+Clase de Color Dinámica:
+
+Para cada actividad, se incluye una clase Bootstrap basada en si la ganancia es positiva (text-success) o negativa (text-danger).
+Diccionario para Actividades:
+
+Cada actividad en session['actividades'] ahora es un diccionario con dos claves:
+"mensaje": El texto que se muestra al usuario.
+"clase": La clase CSS para el color (verde o rojo).
+Plantilla Adaptada:
+
+Se aplica la clase dinámica a cada actividad mediante actividad.clase.
+Resultado
+Ganar Reliquias: El texto aparecerá en verde.
+Perder Reliquias: El texto aparecerá en rojo.
+¡Esto hará que las actividades sean visualmente claras para el usuario! 🎉

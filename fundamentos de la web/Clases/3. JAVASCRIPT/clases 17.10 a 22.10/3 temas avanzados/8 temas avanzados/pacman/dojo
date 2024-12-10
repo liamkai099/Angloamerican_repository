@@ -1,0 +1,33 @@
+Un Clásico: PACMAN
+En esta lección, vamos a tomar un desafío de otro nivel con JavaScript, HTML y CSS y haremos que trabajen juntos para crear interacciones espectaculares. ¿Listo para poner en práctica tus habilidades y dar vida a algunos de los personajes favoritos de todos los tiempos?
+
+El objetivo principal aquí es que te familiarices con el proceso de construcción de cosas, siguiendo el flujo de trabajo de Michael Choi. Además, queremos que comiences a aplicar algunos de los algoritmos que has estado aprendiendo para crear aplicaciones simples. 
+
+Si te sientes un poco perdido al implementar estos algoritmos, ¡no te preocupes! Puedes repasar los conceptos y los desafíos obligatorios, o incluso pedir ayuda a tus compañeros del grupo.
+
+Recuerda, no te preocupes si no tienes mucho tiempo disponible, pero si puedes dedicar al menos 4 horas a mirar el video y trabajar en la tarea, ¡será un enorme avance! 
+
+Acá tienes un gran ejemplo de donde puedes sacar ideas y ver cómo lo hicieron.
+
+https://codepen.io/hellokatili/pen/xwKRmo
+
+Además, te dejo una lista de proyectos en GitHub que pueden ayudarte.
+
+https://github.com/topics/pacman-game?l=javascript
+
+También hay muchos tutoriales en internet.
+
+Una de las habilidades más valoradas en programación es aprender a buscar respuestas a lo que no sabemos hacer. Así aprendemos de lo que otros hicieron y podemos buscar nuestra propia manera de hacer las cosas. No importa si no sabes hacer algo o si no tienes todas las respuestas, lo principal es que puedas desarrollar autonomía y resolución de problemas al atreverte a buscar tú las soluciones.  
+
+ 
+
+¡Y ahora a disfrutar el desafío!
+
+Evita que PacMan se escape del laberinto o atraviese las paredes.
+¡Sé creativo y cambia el diseño del laberinto! Hazlo más interesante y desafiante para PacMan.
+Introduce cerezas en el juego. Cada vez que PacMan come una cereza, ¡suma 50 puntos a su puntaje!
+Haz que PacMan cambie de dirección dependiendo de hacia dónde se esté moviendo. Si va hacia arriba, abajo, izquierda o derecha, ¡asegúrate de que PacMan esté en la dirección correcta!
+Como desafío opcional, agrega un fantasma al juego. Cuando PacMan se encuentre con el fantasma, ¡haz que PacMan pierda una vida!
+Como opcional también, haz que el fantasma se mueva en direcciones aleatorias. ¡Eso mantendrá a PacMan en alerta!
+Y el último punto opcional: ¡Intenta agregar otro PacMan al juego! ¡Usa dos teclados para controlar a ambos PacMans y aumenta la diversión!
+ 

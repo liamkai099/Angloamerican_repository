@@ -1,0 +1,35 @@
+body{
+    text-align: center;
+}
+
+h1{
+    font-family: sans-serif;
+    text-decoration: underline wavy;
+}
+
+/* la propiedad inline es para poner las cajas en linea un al lado de la otra
+la propiedad block es para poner las cajas en bloque una debajo de la otra
+y si las juntamos en inline-block se ponen en linea y cuando cambia el tamaño de la 
+pantalla conbia la disposion a bloques funciona. estas propiedad de css funciona mejor 
+çque el span de html y nos permite cambiar la disposicion por defecto de los div*/
+div{
+    display: inline-block;
+    width: 250px;
+    height: 100px;
+    margin: 80px;
+}
+
+.primerdiv{
+    background-color: aqua;
+    color: black;
+}
+
+.segundodiv{
+    background-color: fuchsia;
+    color: yellow;
+}
+
+.tercerdiv{
+    background-color: darkblue;
+    color: white;
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Lotería Mexicana 2</title>
+</head>
+<body>
+    <div class="container">
+        <h1>¡Bienvenido a Lotería Mexicana 2!</h1>
+        <p>Elige un número entre 1 y 54 y trata de adivinar el número de la carta</p>
+        <div class="mensaje" style="background-color: {{ color }};">
+            <p>{{ mensaje }}</p>
+        </div>
+        <form action="/adivinar" method="POST">
+            <input type="number" name="numero" min="1" max="54" required>
+            <button type="submit">¡Adivinar!</button>
+        </form>
+        {% if color == "green" %}
+        <form action="/" method="GET">
+            <button type="submit">Jugar de nuevo</button>
+        </form>
+        {% endif %}
+    </div>
+</body>
+</html>

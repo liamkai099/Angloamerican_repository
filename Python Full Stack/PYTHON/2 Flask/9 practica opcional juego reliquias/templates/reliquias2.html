@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador de Reliquias</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h1 class="text-center">Tus reliquias: {{ reliquias }}</h1>
+        <div class="row text-center">
+            <!-- Formulario para el Templo -->
+            <div class="col-md-3">
+                <h4>Templo</h4>
+                <p>Ganas 10-20 reliquias</p>
+                <form action="/buscar_reliquias" method="post">
+                    <input type="hidden" name="lugar" value="templo">
+                    <button type="submit" class="btn btn-success">Encontrar reliquias!</button>
+                </form>
+            </div>
+            <!-- Formulario para la Pirámide -->
+            <div class="col-md-3">
+                <h4>Pirámide</h4>
+                <p>Ganas 5-10 reliquias</p>
+                <form action="/buscar_reliquias" method="post">
+                    <input type="hidden" name="lugar" value="pirámide">
+                    <button type="submit" class="btn btn-success">Encontrar reliquias!</button>
+                </form>
+            </div>
+            <!-- Formulario para la Selva -->
+            <div class="col-md-3">
+                <h4>Selva</h4>
+                <p>Ganas 2-5 reliquias</p>
+                <form action="/buscar_reliquias" method="post">
+                    <input type="hidden" name="lugar" value="selva">
+                    <button type="submit" class="btn btn-success">Encontrar reliquias!</button>
+                </form>
+            </div>
+            <!-- Formulario para las Ruinas -->
+            <div class="col-md-3">
+                <h4>Ruinas</h4>
+                <p>Ganas/Pierdes 0-50 reliquias</p>
+                <form action="/buscar_reliquias" method="post">
+                    <input type="hidden" name="lugar" value="ruinas">
+                    <button type="submit" class="btn btn-success">Encontrar reliquias!</button>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <h4>Actividades</h4>
+        <ul>
+            {% for actividad in actividades | reverse %}
+                <li class="{% if 'Perdiste' in actividad %}text-danger{% else %}text-success{% endif %}">{{ actividad }}</li>
+            {% endfor %}
+        </ul>
+        <a href="/reiniciar" class="btn btn-danger mt-3">Reiniciar Juego</a>
+    </div>
+</body>
+</html>

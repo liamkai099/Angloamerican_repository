@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego Destino</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-5">¡Bienvenido al Juego del Destino!</h1>
+        <form method="POST" action="/enviar">
+            <div class="form-group">
+                <label for="nombre">Tu nombre:</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="lugar">Un lugar:</label>
+                <input type="text" class="form-control" id="lugar" name="lugar" required>
+            </div>
+            <div class="form-group">
+                <label for="numero">Un número:</label>
+                <input type="number" class="form-control" id="numero" name="numero" required>
+            </div>
+            <div class="form-group">
+                <label for="comida">Tu comida preferida:</label>
+                <input type="text" class="form-control" id="comida" name="comida" required>
+            </div>
+            <div class="form-group">
+                <label for="profesion">Elige una profesión:</label>
+                <select class="form-control" id="profesion" name="profesion" required>
+                    <option value="Doctor">Doctor</option>
+                    <option value="Ingeniero">Ingeniero</option>
+                    <option value="Abogado">Abogado</option>
+                    <option value="Artista">Artista</option>
+                    <option value="Profesor">Profesor</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+        </form>
+    </div>
+</body>
+</html>

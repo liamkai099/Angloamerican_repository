@@ -1,0 +1,66 @@
+CREATE DATABASE IF NOT EXISTS esquema_estudiante_curso;
+USE esquema_estudiante_curso;
+
+-- Tabla de cursos
+CREATE TABLE cursos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(45) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Tabla de estudiantes
+CREATE TABLE estudiantes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(45) NOT NULL,
+    apellido VARCHAR(45) NOT NULL,
+    edad VARCHAR(45) NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    curso_id INT NOT NULL,
+	FOREIGN KEY (curso_id) REFERENCES cursos(id) 
+    );
+
+
+SELECT * FROM cursos;
+
+INSERT INTO cursos (nombre,created_at, updated_at)
+VALUES
+('python', NOW(), NOW()),
+('java', NOW(), NOW()),
+('c++', NOW(), NOW());
+
+DELETE FROM cursos WHERE id IN (1, 2, 3);
+
+INSERT INTO cursos (nombre,created_at, updated_at)
+VALUES
+('HTML', NOW(), NOW()),
+('CSS', NOW(), NOW()),
+('JAVASCRIPt', NOW(), NOW());
+
+INSERT INTO estudiantes (nombre, apellido, edad, created_at, updated_at, curso_id)
+VALUES 
+    ('Juan', 'Pérez', 20, NOW(), NOW(), 4),
+    ('Ana', 'Gómez', 22, NOW(), NOW(), 4),
+    ('aitor', 'Martínez', 21, NOW(), NOW(), 4),
+    ('María', 'López', 19, NOW(), NOW(), 5),
+    ('Carlos', 'Ramírez', 23, NOW(), NOW(), 5),
+    ('Laura', 'Torres', 20, NOW(), NOW(), 5),
+    ('Pedro', 'García', 24, NOW(), NOW(), 6),
+    ('Sofía', 'Hernández', 21, NOW(), NOW(), 6),
+    ('Diego', 'Cruz', 22, NOW(), NOW(), 6);    
+
+    
+SELECT * FROM estudiantes WHERE curso_id = 4;    
+
+SELECT * FROM estudiantes WHERE curso_id = 6;
+
+-- otra forma de obtener los estudiantes del ultimo curso 
+SELECT * FROM estudiantes WHERE curso_id = (SELECT MAX(id) FROM cursos);
+
+-- varias consultas para obtener el curso del ultimo estudiante 
+SELECT c.* FROM cursos c JOIN estudiantes e ON c.id = e.curso_id WHERE e.id = (SELECT MAX(id) FROM estudiantes);
+
+SELECT c.* FROM cursos c JOIN estudiantes e ON c.id = e.curso_id ORDER BY e.id DESC LIMIT 1;
+
+SELECT * FROM cursos WHERE id = (SELECT curso_id FROM estudiantes ORDER BY id DESC LIMIT 1);

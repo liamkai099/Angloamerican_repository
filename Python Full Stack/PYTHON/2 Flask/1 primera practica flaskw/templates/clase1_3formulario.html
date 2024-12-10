@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            .form-container {
+                border: 3px solid black; 
+                margin: 20px auto; 
+                padding: 20px; 
+                max-width: 500px; 
+                font-family: Arial, sans-serif; 
+            }
+            h1 {
+                text-align: center; 
+                font-size: 24px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="form-container">
+            <h1>¡Regístrate y únete a la comunidad!</h1>
+            <form action="/registro" method="post">
+                <div>
+                    <label>Nombre:</label>
+                    <input type="text" name="nombre_completo" placeholder="Ingresa tu nombre">
+                </div>
+                <br>
+                <div>
+                    <label>Apellido:</label>
+                    <input type="text" name="nombre_completo" placeholder="Ingresa tu apellido">
+                </div>
+                <br>
+                <div>
+                    <label>Correo electrónico:</label>
+                    <input type="text" name="correo" placeholder="Ingresa tu correo">
+                </div>
+                <br>
+                <div>
+                    <label>Contraseña:</label>
+                    <input type="password" name="contraseña" placeholder="Ingresa tu contraseña">
+                </div>
+                <br>
+                <div>
+                    <label>Confirma Contraseña:</label>
+                    <input type="password" name="contraseña" placeholder="Confirma tu contraseña">
+                </div>
+                <br>
+                <div>
+                    <label for="fecha_nacimiento">Fecha de nacimiento:</label>
+                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento">
+                </div>
+                <br>
+                <div>
+                    <label>Género:</label>
+                    <input type="radio" id="masculino" name="genero" value="masculino">
+                    <label for="masculino">Masculino</label>
+                    <input type="radio" id="femenino" name="genero" value="femenino">
+                    <label for="femenino">Femenino</label>
+                    <input type="radio" id="no-decir" name="genero" value="no-decir">
+                    <label for="no-decir">Prefiero no decir</label>
+                </div>
+                <br>
+                <div>
+                    <input type="checkbox" name="suscribirse" id="suscribirse" checked>
+                    <label for="suscribirse">Suscríbete a nuestro boletín de noticias</label>
+                </div>
+                <br>
+                <div>
+                    <label for="comentario">Una descripción de mí mismo:</label>
+                    <br>
+                    <textarea id="comentario" name="comentario" rows="4" cols="30"></textarea>
+                </div>
+                <br>
+                <div>
+                    <label for="bandas">Selecciona tus intereses:</label>
+                    <br>
+                    <select id="bandas" name="bandas">
+                        <option value="musica">Música</option>
+                        <option value="deportes">Deportes</option>
+                        <option value="viajes">Viajes</option>
+                        <option value="tecnologia">Tecnología</option>
+                    </select>
+                </div>
+                <br>
+                <input type="submit" value="Registrarse">
+            </form>
+        </div>
+    </body>
+</html>

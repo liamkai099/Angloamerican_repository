@@ -1,0 +1,22 @@
+¡Luces Apagadas!
+Lights Out es un juego de puzzle clásico que desafía tu habilidad para apagar todas las luces de un tablero. 
+Imagina que estás en una habitación con muchas luces encendidas y tu objetivo es apagarlas todas. Pero cada 
+vez que presionas una luz, ¡las luces a su alrededor también cambian de estado!
+
+https://codingdojolatam.la/wp-content/uploads/2024/03/Screenshot-2024-03-18-131731.png
+
+El desafío radica en encontrar la secuencia correcta de movimientos para apagar todas las luces y dejar el 
+tablero completamente oscuro. Cada nivel presenta un nuevo rompecabezas, ¡así que prepárate para poner a prueba tu ingenio!
+
+¿Te gustaría embarcarte en una emocionante aventura de desarrollo web? ¡Entonces, desarrollar el clásico juego 
+Lights Out es una excelente opción! Imagina desafiar tus habilidades en HTML, CSS y JavaScript mientras creas 
+un juego interactivo que desafiará tu ingenio y creatividad.
+
+Con HTML, darás vida al tablero del juego, creando la estructura que será la base de tu desafío. Luego, con CSS,
+ podrás dar estilo al juego, agregando colores, diseño y efectos visuales que lo harán más atractivo y emocionante.
+  Por último, con JavaScript, podrás implementar la lógica del juego, desde el cambio de estado de las luces hasta
+   la detección de la victoria del jugador.
+
+Imagina la satisfacción de ver cómo tu juego cobra vida en el navegador, listo para desafiar a tus amigos a resolver
+ cada rompecabezas. Además, desarrollar en HTML, CSS y JavaScript te brindará habilidades fundamentales en 
+ programación web que te serán útiles en muchos otros proyectos.

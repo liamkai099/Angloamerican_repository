@@ -1,0 +1,147 @@
+-- 1 Obtener todos los clientes dentro de la ciudad ‘Santiago de los Caballeros’:
+-- Devolverá el nombre, apellido, correo electrónico y dirección del cliente.
+SELECT 
+    c.first_name AS nombre,
+    c.last_name AS apellido,
+    c.email AS correo,
+    a.address AS direccion
+FROM 
+    customer c
+JOIN 
+    address a ON c.address_id = a.address_id
+JOIN 
+    city ci ON a.city_id = ci.city_id
+WHERE 
+    ci.city = 'Santiago de los Caballeros';
+
+-- 2 Obtener todas las películas de categoría Sci-Fi:
+-- Devolverá el título de la película, descripción, año de lanzamiento, clasificación, características -
+-- especiales y el género (categoría).
+SELECT 
+    f.title AS titulo,
+    f.description AS descripcion,
+    f.release_year AS anio_lanzamiento,
+    f.rating AS clasificacion,
+    f.special_features AS caracteristicas_especiales,
+    cat.name AS genero
+FROM 
+    film f
+JOIN 
+    film_category fc ON f.film_id = fc.film_id
+JOIN 
+    category cat ON fc.category_id = cat.category_id
+WHERE 
+    cat.name = 'Sci-Fi';
+
+-- 3 Obtener todas las películas en las que aparece la actriz ‘WHOOPI’:
+-- Devolverá el id del actor, nombre del actor, título de la película, descripción y año de lanzamiento.
+SELECT 
+    a.actor_id AS id_actor,
+    CONCAT(a.first_name, ' ', a.last_name) AS nombre_actor,
+    f.title AS titulo,
+    f.description AS descripcion,
+    f.release_year AS anio_lanzamiento
+FROM 
+    actor a
+JOIN 
+    film_actor fa ON a.actor_id = fa.actor_id
+JOIN 
+    film f ON fa.film_id = f.film_id
+WHERE 
+    a.first_name = 'WHOOPI';
+
+-- 4 Obtener todos los clientes de store_id = 1 y dentro de las ciudades (1, 42, 312 y 459):
+-- Devolverá el nombre, apellido, correo electrónico y dirección del cliente.
+SELECT 
+    c.first_name AS nombre,
+    c.last_name AS apellido,
+    c.email AS correo,
+    a.address AS direccion
+FROM 
+    customer c
+JOIN 
+    address a ON c.address_id = a.address_id
+JOIN 
+    city ci ON a.city_id = ci.city_id
+WHERE 
+    c.store_id = 1 AND ci.city_id IN (1, 42, 312, 459);
+
+-- 5 Obtener todas las películas con rating = 'PG-13', que incluyan ‘trailers’ en las características 
+-- especiales, y unidas por actor_id = 23:
+-- Devolverá el título de la película, descripción, año de lanzamiento, clasificación y característica 
+-- especial.
+SELECT 
+    f.title AS titulo,
+    f.description AS descripcion,
+    f.release_year AS anio_lanzamiento,
+    f.rating AS clasificacion,
+    f.special_features AS caracteristicas_especiales
+FROM 
+    film f
+JOIN 
+    film_actor fa ON f.film_id = fa.film_id
+WHERE 
+    f.rating = 'PG-13' AND 
+    f.special_features LIKE '%trailers%' AND 
+    fa.actor_id = 23;
+
+-- 6 Obtener todos los actores que participaron en film_id = 157:
+-- Devolverá el id de la película, título, id del actor y nombre del actor.
+SELECT 
+    f.film_id AS id_pelicula,
+    f.title AS titulo,
+    a.actor_id AS id_actor,
+    CONCAT(a.first_name, ' ', a.last_name) AS nombre_actor
+FROM 
+    film f
+JOIN 
+    film_actor fa ON f.film_id = fa.film_id
+JOIN 
+    actor a ON fa.actor_id = a.actor_id
+WHERE 
+    f.film_id = 157;
+
+-- 7 Obtener todas las películas de categoría ‘Horror’ con costo de renta de 0.99:
+-- Devolverá el título de la película, descripción, año de lanzamiento, clasificación, características 
+-- especiales y el género (categoría).
+SELECT 
+    f.title AS titulo,
+    f.description AS descripcion,
+    f.release_year AS anio_lanzamiento,
+    f.rating AS clasificacion,
+    f.special_features AS caracteristicas_especiales,
+    cat.name AS genero
+FROM 
+    film f
+JOIN 
+    film_category fc ON f.film_id = fc.film_id
+JOIN 
+    category cat ON fc.category_id = cat.category_id
+WHERE 
+    cat.name = 'Horror' AND f.rental_rate = 0.99;
+
+-- 8 Obtener todas las películas de categoría Musical (Music) en las que haya participado VAL BOLGER:
+-- Devolverá el título de la película, descripción, año de lanzamiento, clasificación, características 
+-- especiales, género (categoría) y el nombre y apellido del actor.
+SELECT 
+    f.title AS titulo,
+    f.description AS descripcion,
+    f.release_year AS anio_lanzamiento,
+    f.rating AS clasificacion,
+    f.special_features AS caracteristicas_especiales,
+    cat.name AS genero,
+    CONCAT(a.first_name, ' ', a.last_name) AS nombre_actor
+FROM 
+    film f
+JOIN 
+    film_actor fa ON f.film_id = fa.film_id
+JOIN 
+    actor a ON fa.actor_id = a.actor_id
+JOIN 
+    film_category fc ON f.film_id = fc.film_id
+JOIN 
+    category cat ON fc.category_id = cat.category_id
+WHERE 
+    cat.name = 'Music' AND 
+    a.first_name = 'VAL' AND 
+    a.last_name = 'BOLGER';

@@ -1,0 +1,90 @@
+-- seleccionamos es esquema en el navegador
+use esquema_canciones;
+
+-- insertamos en la tabla usuarios 5 nuevos registros
+INSERT INTO usuarios (nombre, gmail, contrasena, created_at, updated_at)
+VALUES 
+    ('Juan', 'Pérez@gmail.com', 'gedt34rw', NOW(), NOW()),
+    ('lagerta', 'lager29@gmail.com', 'hbdcywe7', NOW(), NOW()),
+    ('aitor', 'aitor@gmail.com', 'sdhwey721', NOW(), NOW()),
+    ('Ana', 'an23@gmail.com', '2gdwudu2', NOW(), NOW()),
+    ('dere', 'dere@gmail.com','csihd676', NOW(), NOW());
+
+-- canbiamos los datos del id 3 en la tabla usuarios
+UPDATE usuarios SET nombre = 'Miyagi', updated_at = NOW() WHERE id = 3;
+UPDATE usuarios SET gmail = 'Miyagi@gmail', updated_at = NOW() WHERE id = 3;
+UPDATE usuarios SET contrasena = 'hb3fy38yf', updated_at = NOW() WHERE id = 3;
+
+-- verificamos cambios en la tabla usuarios
+SELECT * FROM usuarios;
+
+-- insertamos 5 nuevas canciones en la tabla canciones 
+INSERT INTO canciones (titulo, artista, created_at, updated_at)
+VALUES 
+    ('CORAZON QUE NO OLVIDA', 'EDUARDO BRITO', NOW(), NOW()),
+    ('somos de la calle', 'daddy yankee', NOW(), NOW()),
+    ('DEVUELVEME LA VIDA', 'CLAUDIO VALLEJ', NOW(), NOW()),
+    ('MIENTE', 'camila', NOW(), NOW()),
+    ('positive', 'dred', NOW(), NOW());
+    
+-- cambiamos por id el nombre de la primera cancion
+UPDATE canciones SET titulo = 'macarena', updated_at = NOW() WHERE id = 1;
+
+-- verificamos los cambios en la tabla canciones
+SELECT * FROM canciones;
+
+-- insertamos registro de las canciones favoritas para cada usuario en la tabla favoritos
+INSERT INTO favoritos (usuario_id, cancione_id)
+VALUES 
+(1, 1), -- Canción 1
+(1, 2), 
+(1, 3); 
+
+INSERT INTO favoritos (usuario_id, cancione_id)
+VALUES 
+(2, 1), 
+(2, 2); 
+
+INSERT INTO favoritos (usuario_id, cancione_id)
+VALUES 
+(3, 1), 
+(3, 2),
+(3, 3), 
+(3, 4); 
+
+INSERT INTO favoritos (usuario_id, cancione_id) 
+VALUES 
+(4, 1), 
+(4, 2),
+(4, 3), 
+(4, 4),
+(4, 5); 
+
+-- (otra forma de inserta en tabla favoritos todas las canciones al 4 usuario)
+-- INSERT INTO favoritos (usuario_id, cancione_id) SELECT 4, id FROM canciones;
+
+INSERT INTO favoritos (usuario_id, cancione_id)
+VALUES 
+(5, 1); 
+
+-- verificamos tabla usuarios
+SELECT * FROM favoritos;
+
+-- Recuperamos todos los usuarios que hayan marcado como favorita la tercera canción
+SELECT u.id, u.nombre, u.gmail FROM usuarios u JOIN favoritos f ON u.id = f.usuario_id WHERE f.cancione_id = 3;
+
+-- se realiza la consulta para obtener las canciones favoritas del usuario numero 2
+SELECT c.id, c.titulo, c.artista FROM canciones c JOIN favoritos f ON c.id = f.cancione_id WHERE f.usuario_id = 2;
+
+
+
+
+
+
+
+
+
+
+
+
+
